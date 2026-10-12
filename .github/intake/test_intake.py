@@ -51,5 +51,28 @@ class IntakeTests(unittest.TestCase):
             with self.assertRaises(ValueError):intake.download_attachment('https://127.0.0.1/x','not-created')
             opener.return_value.open.assert_not_called()
 
+    def test_new_storage_stays_pending_and_never_latest(self):
+        engine={'version':'5.8.3','sha256':{n:'a'*64 for n in p.ENGINE_FILES}}
+        for kind in ('official','custom'):
+            meta={'kind':kind,'engine':engine,'plugin_version':'0.2.14'}
+            issue={'html_url':'https://github.com/'+intake.REPO+'/issues/1','number':1}
+            release={'id':2,'html_url':'https://github.com/'+intake.REPO+'/releases/tag/x','upload_url':'https://uploads.github.com/repos/'+intake.REPO+'/releases/2/assets{?name}'}
+            with tempfile.TemporaryDirectory() as tmp:
+                path=Path(tmp)/'bundle.zip';path.write_bytes(b'validated fixture')
+                with patch.object(p,'validate_bundle',return_value=meta),patch.object(intake,'maybe',return_value=None),patch.object(intake,'api',return_value=release) as api,patch.object(intake,'upload') as upload,patch.object(intake,'index_entry') as index:
+                    url,duplicate=intake.collect(path,{},intake.CONSENT,issue)
+                self.assertFalse(duplicate);self.assertEqual(upload.call_count,2)
+                create=api.call_args_list[0].args[2];finish=api.call_args_list[-1].args[2]
+                self.assertTrue(create['draft']);self.assertTrue(finish['prerelease']);self.assertEqual(finish['make_latest'],'false')
+                self.assertTrue(create['tag_name'].startswith('community-'+kind+'-'))
+                record=index.call_args.args[1]
+                self.assertEqual(record['state'],'pending_review');self.assertFalse(record['verified'])
+
+    def test_existing_asset_is_never_overwritten(self):
+        release={'id':2,'upload_url':'https://uploads.github.com/repos/'+intake.REPO+'/releases/2/assets{?name}'}
+        with patch.object(intake,'api',return_value=[{'name':'components.zip','digest':'sha256:'+'a'*64}]),patch.object(intake,'urlopen') as network:
+            with self.assertRaises(ValueError):intake.upload(release,'components.zip',b'different')
+        network.assert_not_called()
+
 
 if __name__=='__main__':unittest.main()
