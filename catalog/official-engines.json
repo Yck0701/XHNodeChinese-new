@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "engines": [
+    {
+      "engine": {
+        "version": "5.8.3",
+        "changelist": 58210709,
+        "sha256": {
+          "Binaries/Win64/UnrealEditor-Core.dll": "4e623a427ea6737d48dffd237292e00de8106fab0f8839f22118f1fb2d5acdfc",
+          "Binaries/Win64/UnrealEditor-CoreUObject.dll": "a49ab07026df1c2ace9de766c5fefb646da12944a182597cea8d9e6a8d5aa254",
+          "Binaries/Win64/UnrealEditor-Slate.dll": "db12bd8f200a1b41eee89c131276c0150500c5405da97f39cb3bb03a8d6e1225",
+          "Binaries/Win64/UnrealEditor-SlateCore.dll": "969d2e8f271a7a3ad48984f8e7e783a6a1d7d239d90b36641bded24dd644f956",
+          "Binaries/Win64/UnrealEditor-ApplicationCore.dll": "7e238b58cbeefb4612aa08e6b15f49b331e9c3f8b7c2b0f50cf28a9dc92464d7",
+          "Binaries/Win64/UnrealEditor-InputCore.dll": "36ca3db913c06bb5f3e24b20b8e81f9b0c3c097593df329956f6831127320688",
+          "Binaries/Win64/UnrealEditor-Engine.dll": "0b25b29ef47bba67e865b98fb1927346c9321d742c2ede96882d8b4eea7fcba5",
+          "Binaries/Win64/UnrealEditor-GraphEditor.dll": "aeb061bf17e19b859205253acd82721afd21beac688978af88ba114897fc9762",
+          "Plugins/FX/Niagara/Binaries/Win64/UnrealEditor-NiagaraEditor.dll": "39d9a6778a2e7b9f64b734b29ea4954c125ac7cb9870a37530021581bd44b600",
+          "Plugins/FX/Niagara/Binaries/Win64/UnrealEditor-NiagaraEditorWidgets.dll": "e828237798696d7b0f236241ae47bf304bf0294ab67cc9c8cb9c514a635e1c16",
+          "Plugins/FX/Niagara/Binaries/Win64/UnrealEditor-Niagara.dll": "0c5899b8eb95ab3528b05102151755a81135223d1aa50d0863f5acfa11f81c1f",
+          "Plugins/FX/Niagara/Binaries/Win64/UnrealEditor-NiagaraCore.dll": "0a0ca8d97abc137f89333930376c76a03210ea7f00eca4ac8ba182d4fb6c2a58"
+        }
+      },
+      "provenance": "Maintainer-verified Epic Launcher UE 5.8.3 / CL 58210709; verified on 2026-10-12."
+    }
+  ]
+}

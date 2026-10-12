@@ -1,0 +1,28 @@
+name: Collect contributed plugin builds
+on:
+  issues:
+    types: [opened, edited, reopened]
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: xh-build-intake
+  cancel-in-progress: false
+jobs:
+  collect:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, '[构建投稿]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Validate intake protocol
+        run: python3 -m unittest discover -s .github/intake -p 'test_*.py' -v
+      - name: Collect without executing contributed binaries
+        if: github.event_name == 'issues'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/intake/intake.py
